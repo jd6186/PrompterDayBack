@@ -15,6 +15,14 @@ def get_seoul_datetime_format():
     return "{:%Y-%m-%d %H:%M:%S}".format(get_seoul_time())
 
 
+def get_news_show_datatime_format(datetime):
+    return "{:%Y-%m-%d}".format(datetime) + " 08:00:00"
+
+
+def get_news_show_datatime_format_by_date(date: str):
+    return date + " 08:00:00"
+
+
 def hash_function(password: str) -> str:
     # 비밀번호를 바이트 형식으로 변환
     password_bytes = password.encode()

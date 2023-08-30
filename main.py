@@ -27,7 +27,8 @@ master_router = APIRouter(
 # my page router
 guest_router = APIRouter(prefix='/guest')
 user_router = APIRouter(prefix='/user', dependencies=[Depends(jwt_token_config.verify_token)])
-http_util.router_setting(app, master_router, guest_router, user_router)
+news_router = APIRouter(prefix='/news') # , dependencies=[Depends(jwt_token_config.verify_token)]
+http_util.router_setting(app, master_router, guest_router, user_router, news_router)
 
 
 ############################## Global Exception Handler ##############################
@@ -55,7 +56,6 @@ async def global_exception_handler(request, error_object):
     return JSONResponse(
         content=dto.dict()
     )
-
 
 
 ############################## Filter ##############################

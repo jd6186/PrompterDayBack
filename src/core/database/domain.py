@@ -1,7 +1,7 @@
 # coding: utf-8
 from datetime import datetime
 
-from sqlalchemy import BigInteger, Column, DateTime, ForeignKey, String, text
+from sqlalchemy import BigInteger, Column, DateTime, ForeignKey, String, text, Text
 from sqlalchemy.orm import relationship
 from src.core.database.database import Base
 
@@ -129,3 +129,18 @@ class EmailVerificationRequest(Base, Serializable):
     code                    = Column(String(100), comment='발송된 코드번호')
     created_datetime        = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"), comment='발송일시')
     is_use                  = Column(String(1), nullable=False, server_default=text("'1'"), comment='0:사용후, 1:사용전')
+
+
+class News(Base, Serializable):
+    __tablename__ = 'tb_news'
+
+    news_id             = Column(BigInteger, primary_key=True, comment='뉴스고유번호')
+    keyword             = Column(String(255), comment='키워드')
+    content             = Column(Text, comment='키워드 설명글')
+    img_url             = Column(String(100), comment='이미지 URL')
+    show_datetime       = Column(DateTime, nullable=False, comment='노출 시작 일시')
+    created_datetime    = Column(DateTime, nullable=False, server_default=text("CURRENT_TIMESTAMP"), comment='저장일시')
+    is_use              = Column(String(1), nullable=False, server_default=text("'1'"), comment='0:사용불가, 1:사용가능')
+
+
+
