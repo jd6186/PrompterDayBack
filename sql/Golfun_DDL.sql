@@ -1,16 +1,27 @@
 ﻿
-create table `tb_participant`
-(
-    `participant_id`   bigint        not null auto_increment comment '참여자 고유번호',
-    `user_id`          bigint        not null comment '유저고유번호(null인 경우 비회원)',
-    `is_player`        varchar(1)    null     default '1' comment '0: 갤러리, 1: 플레이어',
-    `player_nickname`  varchar(100)  not null comment '유저 닉네임이 디폴트(게임방에서 사용할 닉네임으로 수정 가능)',
-    `memo`             varchar(1000) null comment '유저 작성 메모',
-    `field_type_code`  int           not null comment '1: 필드, 2: 스크린',
-    `created_datetime` datetime      not null default current_timestamp() comment '최초참여일시',
-    `leave_datetime`   datetime      null     default current_timestamp() comment '게임에서 이탈한 일시(종료 시 종료 일시)',
-    primary key (`participant_id`)
-);
+-- create table `tb_participant`
+-- (
+--     `participant_id`   bigint        not null auto_increment comment '참여자 고유번호',
+--     `user_id`          bigint        not null comment '유저고유번호(null인 경우 비회원)',
+--     `is_player`        varchar(1)    null     default '1' comment '0: 갤러리, 1: 플레이어',
+--     `player_nickname`  varchar(100)  not null comment '유저 닉네임이 디폴트(게임방에서 사용할 닉네임으로 수정 가능)',
+--     `memo`             varchar(1000) null comment '유저 작성 메모',
+--     `field_type_code`  int           not null comment '1: 필드, 2: 스크린',
+--     `created_datetime` datetime      not null default current_timestamp() comment '최초참여일시',
+--     `leave_datetime`   datetime      null     default current_timestamp() comment '게임에서 이탈한 일시(종료 시 종료 일시)',
+--     primary key (`participant_id`)
+-- );
+
+-- alter table `tb_participant`
+--     add constraint `fk_tb_user_to_tb_participant_1` foreign key (
+--                                                                  `user_id`
+--         )
+--         references `tb_user` (
+--                               `user_id`
+--             );
+
+
+
 
 create table `tb_user`
 (
@@ -69,15 +80,19 @@ create table `tb_sign_up_history`
     primary key (`sign_up_history_id`)
 );
 
+create table `tb_news`
+(
+    `news_id`            bigint         not null auto_increment comment '뉴스고유번호',
+    `keyword`            varchar(255)   not null comment '키워드',
+    `content`            text           not null comment '키워드 설명글',
+    `img_url`            varchar(100)   not null comment '이미지 URL',
+    `show_datetime`      datetime       not null comment '노출 시작 일시',
+    `created_datetime`   datetime       not null default current_timestamp() comment '저장일시',
+    `is_use`             varchar(1)     not null default '1' comment '0:사용불가, 1:사용가능',
+    primary key (`news_id`)
+);
 
 
-alter table `tb_participant`
-    add constraint `fk_tb_user_to_tb_participant_1` foreign key (
-                                                                 `user_id`
-        )
-        references `tb_user` (
-                              `user_id`
-            );
 
 alter table `tb_friend`
     add constraint `fk_tb_user_to_tb_friend_1` foreign key (
