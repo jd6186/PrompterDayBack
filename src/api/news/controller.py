@@ -1,9 +1,12 @@
+from typing import List
+
 from fastapi import APIRouter, Depends
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
 
 from src.api.news import service
 from src.api.news.code import NewsType
+from src.api.news.response_dto import NewsDto
 from src.core.database.database import get_db
 from src.core.dto.response_dto import ResponseDTO
 
@@ -45,7 +48,7 @@ async def make_today_data_batch(db: Session = Depends(get_db)):
     return ResponseDTO().of("success")
 
 
-@router.get("/today-news", summary="오늘의 키워드를 산정하고 이를 DALL·E 2를 활용해 웹툰을 만들어두는 배치", description="현재는 경제관련 용어만 질문")
+@router.get("/today-news", response_model=List[NewsDto], summary="오늘의 키워드를 산정하고 이를 DALL·E 2를 활용해 웹툰을 만들어두는 배치", description="현재는 경제관련 용어만 질문\n date : yyyy-MM-dd 형식으로 날짜를 입력해야함")
 async def get_today_news(date: str, db: Session = Depends(get_db)):
     response = service.get_today_news_list(date, db)
     return ResponseDTO().of(response)

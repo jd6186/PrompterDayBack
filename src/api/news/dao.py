@@ -21,7 +21,7 @@ def find_today_news_list(date: str, db: Session):
         .filter(
             and_(
                 News.show_datetime == core_util.get_news_show_datatime_format_by_date(date), # 검색일자에 해당하는 모든 뉴스 리턴 > 해봤자 키워드별로 5개씩 밖에 없음
-                News.show_datetime <= core_util.get_seoul_time, # 당일 오전 8시 이후에 조회 가능
+                News.show_datetime <= core_util.get_seoul_datetime_format(), # 당일 오전 8시 이후에 조회 가능
                 News.is_use == '1'
             )
         )\

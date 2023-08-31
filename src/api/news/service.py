@@ -2,6 +2,7 @@ import openai
 import requests
 from sqlalchemy.orm import Session
 
+from src.api.news.response_dto import NewsDto
 from src.core.util.core_util import get_secret_data
 from src.api.news import dao
 
@@ -70,4 +71,7 @@ def save_news(keyword: str, content: str, img_url: str, db: Session):
 
 
 def get_today_news_list(date: str, db: Session):
-    return dao.find_today_news_list(date, db)
+    db_list = dao.find_today_news_list(date, db)
+    return [news.to_dto(NewsDto) for news in db_list]
+
+
