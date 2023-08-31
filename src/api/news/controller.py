@@ -14,8 +14,8 @@ token_auth_scheme = HTTPBearer()
 
 
 @router.post("/search_keywords", summary="오늘의 키워드 검색 테스트용 API", description="오늘의 키워드 검색 테스트용 API")
-async def kakao_extract_keywords(text: str):
-    response = service.get_today_keywords(text)
+async def kakao_extract_keywords():
+    response = service.get_today_keywords("경제")
     return ResponseDTO().of(response)
 
 
@@ -25,13 +25,13 @@ async def ask_gpt(question: str):
     return ResponseDTO().of(response)
 
 
-@router.get("/today-batch", summary="오늘의 키워드를 산정하고 이를 DALL·E 2를 활용해 웹툰을 만들어두는 배치", description="현재는 경제관련 용어만 질문")
+@router.post("/today-batch", summary="오늘의 키워드를 산정하고 이를 DALL·E 2를 활용해 웹툰을 만들어두는 배치", description="현재는 경제관련 용어만 질문")
 async def make_today_data_batch(db: Session = Depends(get_db)):
     for name, data in NewsType.__members__.items():
         print(f"make_today_data_batch > name : {name}, data.value : {data.value}")
         # 질문에 맞는 키워드 추출
         today_keywords = service.get_today_keywords(data.value["name"])
-        print("today_5_keyword : " + today_keywords)
+        print(f"today_5_keyword : {today_keywords}")
         for keyword in today_keywords:
             # 키워드 용어 설명을 ChatGPT에 문의
             content = service.ask_chat_gpt(keyword)

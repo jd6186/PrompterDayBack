@@ -8,7 +8,6 @@ SECRET_DATA = get_secret_data()
 SENDER_EMAIL = os.environ.get("SENDER_EMAIL")
 SMTP_HOST = os.environ.get("SMTP_HOST")
 SENDER_EMAIL_PASSWORD = SECRET_DATA["SENDER_EMAIL_PASSWORD"]
-print(f"SENDER_EMAIL: {SENDER_EMAIL}, SMTP_HOST: {SMTP_HOST}, SENDER_EMAIL_PASSWORD: {SENDER_EMAIL_PASSWORD}")
 
 
 def send_verification_email(email: str, code: int):

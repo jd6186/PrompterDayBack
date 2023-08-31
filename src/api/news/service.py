@@ -12,28 +12,26 @@ openai.api_key = SECRET_DATA["OPENAI_API_KEY"]
 
 def get_today_keywords(text: str):
     # TODO - 가능하다면 Kakao API를 이용해서 키워드 추출하기
-    url = "KAKAO_KEYWORD_SEARCH_ENDPOINT"
-    headers = {
-        "x-api-key": "KAKAO_CLIENT_ID",
-        "Content-Type": "application/json"
-    }
-    data = {
-        "text": text,
-    }
-    kakao_response = requests.post(url, headers=headers, data=data)
-    if kakao_response.status_code == 200:
-        result = kakao_response.json()
-        if 'keywords' in result:
-            result = result['keywords']
-        else:
-            result = {"error": "No keywords found."}
-    else:
-        result = {"error": f"Error occurred while calling Kakao Keyword Extraction API: {kakao_response.status_code}"}
+    # url = "KAKAO_KEYWORD_SEARCH_ENDPOINT"
+    # headers = {
+    #     "x-api-key": "KAKAO_CLIENT_ID",
+    #     "Content-Type": "application/json"
+    # }
+    # data = {
+    #     "text": text,
+    # }
+    # kakao_response = requests.post(url, headers=headers, data=data)
+    # if kakao_response.status_code == 200:
+    #     result = kakao_response.json()
+    #     if 'keywords' in result:
+    #         result = result['keywords']
+    #     else:
+    #         result = {"error": "No keywords found."}
+    # else:
+    #     result = {"error": f"Error occurred while calling Kakao Keyword Extraction API: {kakao_response.status_code}"}
 
     # TODO - KAKAO_CLIENT_ID 발급 전까지 활용할 임시 Response
-    result = {
-        "keywords": ["부동산 부채", "미국 신용도 하락", "DSL 규제 완화", "부채의 자산화", "기준 금리 인상"]
-    }
+    result = ["부동산 부채", "미국 신용도 하락", "DSL 규제 완화", "부채의 자산화", "기준 금리 인상"]
     return result
 
 
