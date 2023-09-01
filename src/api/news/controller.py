@@ -32,18 +32,25 @@ async def ask_gpt(question: str):
 async def make_today_data_batch(db: Session = Depends(get_db)):
     for name, data in NewsType.__members__.items():
         print(f"make_today_data_batch > name : {name}, data.value : {data.value}")
-        # 질문에 맞는 키워드 추출
-        today_keywords = service.get_today_keywords(data.value["name"])
-        print(f"today_5_keyword : {today_keywords}")
-        for keyword in today_keywords:
-            # 키워드 용어 설명을 ChatGPT에 문의
-            content = service.ask_chat_gpt(keyword)
 
-            # 답변 기반으로 4컷 만화 제작
-            url = service.make_toon(content, db)
+        # 신문사 크롤링
+        url = "https://biz.chosun.com/finance/" # 조선일보 경제면 URL
+        html = service.get_crawl_news_html(url)
+        print(f"html : {html}")
 
-            # 뉴스 기록 DB 저장
-            service.save_news(keyword, content, url, db)
+
+        # HTML 내 키워드를 우선순위에 맞춰 추출
+        # today_keywords = service.get_today_keywords(data.value["name"])
+        # print(f"today_5_keyword : {today_keywords}")
+        # for keyword in today_keywords:
+        #     # 키워드 용어 설명을 ChatGPT에 문의
+        #     content = service.ask_chat_gpt(keyword)
+        #
+        #     # 답변 기반으로 4컷 만화 제작
+        #     url = service.make_toon(content, db)
+        #
+        #     # 뉴스 기록 DB 저장
+        #     service.save_news(keyword, content, url, db)
     db.commit()
     return ResponseDTO().of("success")
 
